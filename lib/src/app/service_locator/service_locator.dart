@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../feature/auth/data/repository/auth_repository.dart';
 import '../local_storage/user/user_hive.dart';
@@ -21,9 +20,8 @@ Future<void> _initSupabase() async {
 }
 
 Future<void> _initHive() async {
-  final dir = await getApplicationDocumentsDirectory();
-  Hive.init(dir.path);
-  Hive.openBox("user");
+  await Hive.initFlutter();
+  await Hive.openBox("user");
 }
 
 void _repositories() {

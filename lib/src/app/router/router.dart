@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../feature/auth/presentation/screens/login_screen.dart';
 import '../../feature/auth/presentation/screens/signup_screen.dart';
 import '../../feature/chat/presentation/screens/chat_home_screen.dart';
+import '../../feature/chat/presentation/screens/chat_message_screen.dart';
 
 GoRouter router = GoRouter(
   initialLocation: "/login",
@@ -28,6 +29,17 @@ GoRouter router = GoRouter(
         key: state.pageKey,
         child: const ChatHomeScreen(),
       ),
+      routes: [
+        GoRoute(
+          path: "message/:id",
+          pageBuilder: (context, state) => MaterialPage(
+            key: state.pageKey,
+            child: ChatMessageScreen(
+              id: state.pathParameters['id']!,
+            ),
+          ),
+        ),
+      ],
     ),
   ],
 );
