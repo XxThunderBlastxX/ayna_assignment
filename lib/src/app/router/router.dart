@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../feature/auth/presentation/screens/login_screen.dart';
 import '../../feature/auth/presentation/screens/signup_screen.dart';
+import '../../feature/chat/presentation/screens/chat_home_screen.dart';
 
 GoRouter router = GoRouter(
   initialLocation: "/login",
@@ -19,6 +20,13 @@ GoRouter router = GoRouter(
       pageBuilder: (context, state) => MaterialPage(
         key: state.pageKey,
         child: const SignupScreen(),
+      ),
+    ),
+    GoRoute(
+      path: "/home",
+      pageBuilder: (context, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ChatHomeScreen(),
       ),
     ),
   ],

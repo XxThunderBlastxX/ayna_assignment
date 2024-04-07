@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            // TODO: Implement navigation to home screen
+            context.go("/home");
           } else if (state is AuthFailure) {
             context.errorBanner(
               state.failure.message,

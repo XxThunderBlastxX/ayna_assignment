@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../app/error/error.dart';
+import '../../../../app/local_storage/user/user_hive.dart';
+import '../../../../app/service_locator/service_locator.dart';
 import '../interface/auth_interface.dart';
 
 class AuthRepository extends IAuth {
@@ -49,6 +51,14 @@ class AuthRepository extends IAuth {
         email: email,
         password: password,
       );
+
+      if (response.session != null) {
+        sl<UserHive>().saveLocalUser(
+          username: response.user!.userMetadata!['username'],
+          email: email,
+        );
+      }
+
       return Left(response);
     } catch (e) {
       return Right(Failure(message: e.toString()));
@@ -67,6 +77,14 @@ class AuthRepository extends IAuth {
         password: password,
         data: {'username': username},
       );
+
+      if (response.session != null) {
+        sl<UserHive>().saveLocalUser(
+          username: username,
+          email: email,
+        );
+      }
+
       return Left(response);
     } catch (e) {
       return Right(Failure(message: e.toString()));

@@ -45,7 +45,7 @@ class _SignupScreenState extends State<SignupScreen> {
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            // TODO: Implement navigation
+            context.go('/home');
           } else if (state is AuthFailure) {
             context.errorBanner(
               state.failure.message,
