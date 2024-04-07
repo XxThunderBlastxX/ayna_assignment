@@ -65,6 +65,7 @@ class AuthRepository extends IAuth {
       AuthResponse response = await _client.auth.signUp(
         email: email,
         password: password,
+        data: {'username': username},
       );
       return Left(response);
     } catch (e) {

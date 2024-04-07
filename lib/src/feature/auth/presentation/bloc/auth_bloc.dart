@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supabase_auth_ui/supabase_auth_ui.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../app/error/error.dart';
 import '../../data/repository/auth_repository.dart';
@@ -15,6 +16,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required AuthRepository authRepo,
   })  : _authRepo = authRepo,
         super(AuthInitial()) {
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
+    TextEditingController usernameController = TextEditingController();
+
     on<SignInEvent>((event, emit) async {
       emit(AuthLoading());
       final response = await _authRepo.signIn(
