@@ -1,16 +1,33 @@
-# ayna_assignment
+# 🍁Ayna Assignment
 
-A new Flutter project.
+> Chat application to send and receive messages in real-time using echo websocket server.
+> This is a assignment project for Ayna.
 
-## Getting Started
+- Deployment : https://66153888c057df06da9bc9ae--celadon-zabaione-e3a22d.netlify.app
 
-This project is a starting point for a Flutter application.
+## 👨‍💻 Tech Stack
 
-A few resources to get you started if this is your first Flutter project:
+![](https://img.shields.io/badge/made_with-flutter-blue?style=for-the-badge&logo=flutter)
+![](https://img.shields.io/badge/made_with-websocket-blue?style=for-the-badge&logo=websocket)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## ⚙ How to run the application
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repository
+    ```shell
+    git clone https://github.com/XxThunderBlastxX/ayna_assignment.git
+    ```
+2. Copy the env variables from `.env.example` file to `.env` and fill the required fields
+    ```shell
+    cp .env.example .env
+    ```
+3. Generate the required files
+    ```shell
+    dart run build_runner build
+    ```
+4. Run the application
+    ```shell
+    flutter run -d <device-name>
+    ```
+
+> 💡Best viewed in mobile devices.
+
