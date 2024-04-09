@@ -42,8 +42,6 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
         (json) => MessageModal.fromJson(json),
       );
 
-      print('messageList: ${messageList.toString()}');
-
       List<MessageModal> filteredMessageList = [];
 
       if (messageList == null) {
