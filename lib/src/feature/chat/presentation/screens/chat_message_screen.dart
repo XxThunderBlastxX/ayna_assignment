@@ -1,8 +1,8 @@
-import 'package:ayna_assignment/src/feature/chat/presentation/bloc/message/message_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../bloc/message/message_bloc.dart';
 import 'widget/chat_bubble.dart';
 import 'widget/send_text_tile.dart';
 
@@ -61,8 +61,7 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
                                     ? 0.8.sh
                                     : 0.47.sh,
                             child: ListView.builder(
-                              itemCount: 10,
-                              reverse: true,
+                              itemCount: messageList.length,
                               keyboardDismissBehavior:
                                   ScrollViewKeyboardDismissBehavior.onDrag,
                               itemBuilder: (context, i) => ChatBubble(
@@ -77,11 +76,14 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
                     SendTextTile(
                       controller: _messageController,
                       focusNode: FocusNode(),
-                      onSend: () => context.read<MessageBloc>().add(
-                            SendMessageEvent(
-                              message: _messageController.text.trim(),
-                            ),
-                          ),
+                      onSend: () {
+                        context.read<MessageBloc>().add(
+                              SendMessageEvent(
+                                message: _messageController.text.trim(),
+                              ),
+                            );
+                        _messageController.clear();
+                      },
                     )
                   ],
                 ),

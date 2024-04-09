@@ -88,6 +88,14 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
             channel: channel,
             subscription: subscription,
           ));
+        // cacheObjectList<MessageModal>(
+        //     'messages',
+        //     List<MessageModal>.from(messageList)
+        //       ..add(MessageModal(
+        //         message: event.message,
+        //         sessionId: sessionId,
+        //         sendByMe: false,
+        //       )));
         default:
           throw Exception('Invalid state');
       }
