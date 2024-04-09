@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../../app/cache/cache.dart';
 import '../../../../app/error/error.dart';
 import '../interface/auth_interface.dart';
 
@@ -51,7 +52,10 @@ class AuthRepository extends IAuth {
       );
 
       if (response.session != null) {
-        // TODO : Save user to local storage
+        await cacheStringMap('user', {
+          'email': email,
+          'username': response.session!.user.userMetadata!['username'] ?? ''
+        });
       }
 
       return Left(response);
@@ -74,7 +78,10 @@ class AuthRepository extends IAuth {
       );
 
       if (response.session != null) {
-        // TODO : Save user to local storage
+        await cacheStringMap('user', {
+          'email': email,
+          'username': username,
+        });
       }
 
       return Left(response);
