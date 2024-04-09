@@ -20,21 +20,39 @@ class ChatMessageScreen extends StatefulWidget {
 
 class _ChatMessageScreenState extends State<ChatMessageScreen> {
   late TextEditingController _messageController;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
     _messageController = TextEditingController();
+    _scrollController = ScrollController();
+    // _scrollController.animateTo(
+    //   _scrollController.position.maxScrollExtent + 300,
+    //   duration: const Duration(milliseconds: 300),
+    //   curve: Curves.easeOut,
+    // );
     super.initState();
   }
 
   @override
   void dispose() {
     _messageController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          curve: Curves.easeOut,
+          duration: const Duration(milliseconds: 500),
+        );
+      }
+    });
+
     return BlocProvider(
       create: (context) => MessageBloc(widget.id),
       child: BlocBuilder<MessageBloc, MessageState>(
@@ -64,9 +82,15 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
                               itemCount: messageList.length,
                               keyboardDismissBehavior:
                                   ScrollViewKeyboardDismissBehavior.onDrag,
+                              physics: const ClampingScrollPhysics(),
+                              controller: _scrollController,
+                              reverse: true,
                               itemBuilder: (context, i) => ChatBubble(
-                                message: messageList[i].message,
-                                sendByMe: messageList[i].sendByMe,
+                                message: messageList[messageList.length - 1 - i]
+                                    .message,
+                                sendByMe:
+                                    messageList[messageList.length - 1 - i]
+                                        .sendByMe,
                               ),
                             ),
                           ),

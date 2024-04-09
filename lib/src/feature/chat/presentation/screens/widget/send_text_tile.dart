@@ -39,7 +39,7 @@ class SendTextTile extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             SizedBox(
-              width: 0.88.sw,
+              width: MediaQuery.sizeOf(context).width * 0.825,
               child: TextField(
                 controller: controller,
                 focusNode: focusNode,
