@@ -61,7 +61,10 @@ class _SignupScreenState extends State<SignupScreen> {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Signup'),
+              title: Text(
+                'Signup',
+                style: AppTheme.theme.textTheme.labelLarge,
+              ),
             ),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -110,7 +113,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 'Signup',
-                                style: AppTheme.theme.textTheme.labelSmall,
+                                style: AppTheme.theme.textTheme.labelMedium,
                               ),
                             ),
                           ),

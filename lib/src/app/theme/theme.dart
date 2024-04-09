@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
@@ -18,9 +17,9 @@ class AppTheme {
       backgroundColor: Colors.transparent,
       elevation: 0,
       centerTitle: true,
-      toolbarHeight: 47.h,
+      toolbarHeight: 47,
       titleTextStyle: GoogleFonts.roboto(
-        fontSize: 18.sp,
+        fontSize: 18,
         fontWeight: FontWeight.w800,
         color: Colors.black87,
       ),
@@ -42,32 +41,32 @@ class AppTheme {
     fontFamily: GoogleFonts.roboto().fontFamily,
     textTheme: TextTheme(
       bodyLarge: GoogleFonts.roboto(
-        fontSize: 18.sp,
+        fontSize: 18,
         fontWeight: FontWeight.w500,
         color: Colors.black87,
       ),
       bodyMedium: GoogleFonts.roboto(
-        fontSize: 15.sp,
+        fontSize: 15,
         fontWeight: FontWeight.w500,
         color: Colors.black87,
       ),
       bodySmall: GoogleFonts.roboto(
-        fontSize: 12.sp,
+        fontSize: 12,
         fontWeight: FontWeight.w500,
         color: Colors.black87,
       ),
       labelLarge: GoogleFonts.roboto(
-        fontSize: 18.sp,
+        fontSize: 22,
         fontWeight: FontWeight.w500,
         color: Colors.black87,
       ),
       labelMedium: GoogleFonts.roboto(
-        fontSize: 15.sp,
+        fontSize: 18,
         fontWeight: FontWeight.w500,
         color: Colors.black87,
       ),
       labelSmall: GoogleFonts.roboto(
-        fontSize: 12.sp,
+        fontSize: 12,
         fontWeight: FontWeight.w500,
         color: Colors.black87,
       ),

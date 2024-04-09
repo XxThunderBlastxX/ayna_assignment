@@ -37,12 +37,24 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
         },
       );
 
+      final messageList = getCachedObjectList<MessageModal>(
+        'messages',
+        (json) => MessageModal.fromJson(json),
+      );
+
+      print('messageList: ${messageList.toString()}');
+
+      List<MessageModal> filteredMessageList = [];
+
+      if (messageList == null) {
+        filteredMessageList = [];
+      } else {
+        filteredMessageList =
+            messageList.where((e) => e.sessionId == sessionId).toList();
+      }
+
       emit(WebsocketConnected(
-        messageList: getCachedObjectList<MessageModal>(
-              'messages',
-              (json) => MessageModal.fromJson(json),
-            ) ??
-            [],
+        messageList: filteredMessageList,
         channel: event.channel,
         subscription: streamSubscription,
       ));
@@ -57,26 +69,44 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
           ):
           channel.send(event.message);
 
-          emit(WebsocketConnected(
-            messageList: [
-              ...messageList,
-              MessageModal(
-                message: event.message,
-                sessionId: sessionId,
-                sendByMe: true,
-              )
-            ],
-            channel: channel,
-            subscription: subscription,
-          ));
-          await cacheObjectList<MessageModal>(
+          final allMessageList = getCachedObjectList<MessageModal>(
+            'messages',
+            (json) => MessageModal.fromJson(json),
+          );
+
+          if (allMessageList == null) {
+            await cacheObjectList<MessageModal>(
               'messages',
-              List<MessageModal>.from(messageList)
-                ..add(MessageModal(
+              [
+                MessageModal(
                   message: event.message,
                   sessionId: sessionId,
-                  sendByMe: false,
-                )));
+                  sendByMe: true,
+                )
+              ],
+            );
+          } else {
+            emit(WebsocketConnected(
+              messageList: [
+                ...messageList,
+                MessageModal(
+                  message: event.message,
+                  sessionId: sessionId,
+                  sendByMe: true,
+                )
+              ],
+              channel: channel,
+              subscription: subscription,
+            ));
+            await cacheObjectList<MessageModal>(
+                'messages',
+                List<MessageModal>.from(allMessageList)
+                  ..add(MessageModal(
+                    message: event.message,
+                    sessionId: sessionId,
+                    sendByMe: true,
+                  )));
+          }
         default:
           throw Exception('Invalid state');
       }
@@ -89,26 +119,44 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
             channel: final channel,
             subscription: final subscription,
           ):
-          emit(WebsocketConnected(
-            messageList: [
-              ...messageList,
-              MessageModal(
-                message: event.message,
-                sessionId: sessionId,
-                sendByMe: false,
-              )
-            ],
-            channel: channel,
-            subscription: subscription,
-          ));
-          await cacheObjectList<MessageModal>(
+          final allMessageList = getCachedObjectList<MessageModal>(
+            'messages',
+            (json) => MessageModal.fromJson(json),
+          );
+
+          if (allMessageList == null) {
+            await cacheObjectList<MessageModal>(
               'messages',
-              List<MessageModal>.from(messageList)
-                ..add(MessageModal(
+              [
+                MessageModal(
                   message: event.message,
                   sessionId: sessionId,
                   sendByMe: false,
-                )));
+                )
+              ],
+            );
+          } else {
+            emit(WebsocketConnected(
+              messageList: [
+                ...messageList,
+                MessageModal(
+                  message: event.message,
+                  sessionId: sessionId,
+                  sendByMe: false,
+                )
+              ],
+              channel: channel,
+              subscription: subscription,
+            ));
+            await cacheObjectList<MessageModal>(
+                'messages',
+                List<MessageModal>.from(allMessageList)
+                  ..add(MessageModal(
+                    message: event.message,
+                    sessionId: sessionId,
+                    sendByMe: false,
+                  )));
+          }
         default:
           throw Exception('Invalid state');
       }

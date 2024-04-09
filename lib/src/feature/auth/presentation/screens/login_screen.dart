@@ -56,7 +56,10 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Login'),
+              title: Text(
+                'Login',
+                style: AppTheme.theme.textTheme.labelLarge,
+              ),
             ),
             body: Padding(
               padding: const EdgeInsets.all(24.0),
@@ -93,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   'Login',
-                                  style: AppTheme.theme.textTheme.labelSmall,
+                                  style: AppTheme.theme.textTheme.labelMedium,
                                 ),
                               ),
                             ),
