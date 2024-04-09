@@ -6,11 +6,13 @@ import '../../../../../app/theme/theme.dart';
 class SendTextTile extends StatelessWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
+  final VoidCallback? onSend;
 
   const SendTextTile({
     super.key,
     this.controller,
     this.focusNode,
+    required this.onSend,
   });
 
   @override
@@ -70,7 +72,7 @@ class SendTextTile extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: onSend,
               icon: const Icon(
                 Icons.send,
                 color: AppTheme.kLightBlueColor,

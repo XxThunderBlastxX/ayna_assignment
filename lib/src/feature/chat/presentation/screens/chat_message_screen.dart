@@ -1,10 +1,12 @@
-import 'package:ayna_assignment/src/feature/chat/presentation/screens/widget/chat_bubble.dart';
+import 'package:ayna_assignment/src/feature/chat/presentation/bloc/message/message_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'widget/chat_bubble.dart';
 import 'widget/send_text_tile.dart';
 
-class ChatMessageScreen extends StatelessWidget {
+class ChatMessageScreen extends StatefulWidget {
   final String id;
 
   const ChatMessageScreen({
@@ -13,44 +15,79 @@ class ChatMessageScreen extends StatelessWidget {
   });
 
   @override
+  State<ChatMessageScreen> createState() => _ChatMessageScreenState();
+}
+
+class _ChatMessageScreenState extends State<ChatMessageScreen> {
+  late TextEditingController _messageController;
+
+  @override
+  void initState() {
+    _messageController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _messageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Chat Message $id'),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).viewInsets.bottom == 0
-                      ? 0.8.sh
-                      : 0.47.sh,
-                  child: ListView.builder(
-                    itemCount: 10,
-                    // reverse: true,
-                    keyboardDismissBehavior:
-                        ScrollViewKeyboardDismissBehavior.onDrag,
-                    itemBuilder: (context, i) => ChatBubble(
-                      message: 'hello',
-                      sendByMe: true,
-                    ),
-                  ),
+    return BlocProvider(
+      create: (context) => MessageBloc(widget.id),
+      child: BlocBuilder<MessageBloc, MessageState>(
+        builder: (context, state) {
+          switch (state) {
+            case WebsocketConnecting():
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            case WebsocketConnected(messageList: final messageList):
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text('Chat Message ${widget.id}'),
                 ),
-              ],
-            ),
-          ),
-          // const Divider(
-          //   color: AppTheme.kLightBlueColor,
-          //   thickness: 1.2,
-          // ),
-          SendTextTile(
-            controller: TextEditingController(),
-            focusNode: FocusNode(),
-          )
-        ],
+                body: Column(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                            height:
+                                MediaQuery.of(context).viewInsets.bottom == 0
+                                    ? 0.8.sh
+                                    : 0.47.sh,
+                            child: ListView.builder(
+                              itemCount: 10,
+                              reverse: true,
+                              keyboardDismissBehavior:
+                                  ScrollViewKeyboardDismissBehavior.onDrag,
+                              itemBuilder: (context, i) => ChatBubble(
+                                message: messageList[i].message,
+                                sendByMe: messageList[i].sendByMe,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SendTextTile(
+                      controller: _messageController,
+                      focusNode: FocusNode(),
+                      onSend: () => context.read<MessageBloc>().add(
+                            SendMessageEvent(
+                              message: _messageController.text.trim(),
+                            ),
+                          ),
+                    )
+                  ],
+                ),
+              );
+          }
+        },
       ),
     );
   }

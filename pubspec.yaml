@@ -45,6 +45,9 @@ dependencies:
   hive_generator: ^2.0.1
   shared_preferences: ^2.2.2
   json_types: ^3.0.1
+  web_socket_channel: ^2.2.0
+  parse_json: ^2.2.3
+  async: ^2.11.0
 
 dev_dependencies:
   flutter_test:

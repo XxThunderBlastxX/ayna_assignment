@@ -1,6 +1,7 @@
-import 'package:ayna_assignment/src/app/cache/cache.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../app/cache/cache.dart';
 
 part 'chat_event.dart';
 part 'chat_state.dart';
