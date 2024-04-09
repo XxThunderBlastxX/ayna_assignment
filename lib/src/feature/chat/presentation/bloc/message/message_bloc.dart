@@ -4,6 +4,7 @@ import 'package:async/async.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../app/cache/cache.dart';
 import '../../../../../app/utils/message_websocket.dart';
 import '../../modal/message/message_modal.dart';
 
@@ -37,13 +38,17 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
       );
 
       emit(WebsocketConnected(
-        messageList: const <MessageModal>[],
+        messageList: getCachedObjectList<MessageModal>(
+              'messages',
+              (json) => MessageModal.fromJson(json),
+            ) ??
+            [],
         channel: event.channel,
         subscription: streamSubscription,
       ));
     });
 
-    on<SendMessageEvent>((event, emit) {
+    on<SendMessageEvent>((event, emit) async {
       switch (state) {
         case WebsocketConnected(
             messageList: final messageList,
@@ -64,12 +69,20 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
             channel: channel,
             subscription: subscription,
           ));
+          await cacheObjectList<MessageModal>(
+              'messages',
+              List<MessageModal>.from(messageList)
+                ..add(MessageModal(
+                  message: event.message,
+                  sessionId: sessionId,
+                  sendByMe: false,
+                )));
         default:
           throw Exception('Invalid state');
       }
     });
 
-    on<ReceiveMessageEvent>((event, emit) {
+    on<ReceiveMessageEvent>((event, emit) async {
       switch (state) {
         case WebsocketConnected(
             messageList: final messageList,
@@ -88,14 +101,14 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
             channel: channel,
             subscription: subscription,
           ));
-        // cacheObjectList<MessageModal>(
-        //     'messages',
-        //     List<MessageModal>.from(messageList)
-        //       ..add(MessageModal(
-        //         message: event.message,
-        //         sessionId: sessionId,
-        //         sendByMe: false,
-        //       )));
+          await cacheObjectList<MessageModal>(
+              'messages',
+              List<MessageModal>.from(messageList)
+                ..add(MessageModal(
+                  message: event.message,
+                  sessionId: sessionId,
+                  sendByMe: false,
+                )));
         default:
           throw Exception('Invalid state');
       }

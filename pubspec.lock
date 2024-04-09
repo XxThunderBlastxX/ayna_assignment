@@ -424,14 +424,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
-  json_types:
-    dependency: "direct main"
-    description:
-      name: json_types
-      sha256: "017b804140199baed6a837f8b0d4155d0df2ae9e7e4237ea356bb1623cd7b406"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
   jwt_decode:
     dependency: transitive
     description:
