@@ -23,7 +23,7 @@ class SendTextTile extends StatelessWidget {
         color: Colors.white,
         border: Border(
           top: BorderSide(
-            color: AppTheme.kLightBlueColor,
+            color: AppTheme.kPurpleColor,
             width: 1.2,
           ),
         ),
@@ -37,6 +37,7 @@ class SendTextTile extends StatelessWidget {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             SizedBox(
               width: MediaQuery.sizeOf(context).width * 0.825,
@@ -53,14 +54,14 @@ class SendTextTile extends StatelessWidget {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15.r),
                     borderSide: const BorderSide(
-                      color: AppTheme.kLightBlueColor,
+                      color: AppTheme.kPurpleColor,
                       width: 1.2,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15.r),
                     borderSide: const BorderSide(
-                      color: AppTheme.kLightBlueColor,
+                      color: AppTheme.kPurpleColor,
                       width: 1.2,
                     ),
                   ),
@@ -75,7 +76,7 @@ class SendTextTile extends StatelessWidget {
               onPressed: onSend,
               icon: const Icon(
                 Icons.send,
-                color: AppTheme.kLightBlueColor,
+                color: AppTheme.kPurpleColor,
                 size: 28.0,
               ),
             )

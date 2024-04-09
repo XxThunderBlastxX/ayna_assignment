@@ -4,12 +4,12 @@ sealed class ChatState extends Equatable {
   const ChatState();
 }
 
-final class ChatSessionList extends ChatState {
+final class ChatSessionListState extends ChatState {
   final List<String> chatSessionId;
   final bool chatSessionDeleted;
   final bool chatSessionCreated;
 
-  const ChatSessionList({
+  const ChatSessionListState({
     required this.chatSessionId,
     this.chatSessionDeleted = false,
     this.chatSessionCreated = false,

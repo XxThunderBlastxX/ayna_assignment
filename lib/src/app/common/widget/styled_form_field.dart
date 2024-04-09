@@ -6,12 +6,16 @@ class StyledFormField extends StatelessWidget {
   final String label;
   final Widget? icon;
   final TextEditingController? controller;
+  final bool? obscureText;
+  final String? Function(String?)? validator;
 
   const StyledFormField({
     super.key,
     required this.label,
     this.icon,
     this.controller,
+    this.obscureText = false,
+    this.validator,
   });
 
   InputBorder getBorder() {
@@ -28,6 +32,8 @@ class StyledFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      obscureText: obscureText ?? false,
+      validator: validator,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(12),
         prefixIcon: icon,
@@ -35,6 +41,7 @@ class StyledFormField extends StatelessWidget {
         labelStyle: AppTheme.theme.textTheme.labelMedium,
         enabledBorder: getBorder(),
         focusedBorder: getBorder(),
+        errorBorder: getBorder(),
       ),
     );
   }

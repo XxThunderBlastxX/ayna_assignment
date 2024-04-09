@@ -5,8 +5,8 @@ import '../../feature/auth/presentation/screens/login_screen.dart';
 import '../../feature/auth/presentation/screens/signup_screen.dart';
 import '../../feature/chat/presentation/screens/chat_home_screen.dart';
 import '../../feature/chat/presentation/screens/chat_message_screen.dart';
+import '../service/service_locator.dart';
 import '../service/supabase_service.dart';
-import '../service_locator/service_locator.dart';
 
 GoRouter router = GoRouter(
   initialLocation: sl<SupabaseService>().client.auth.currentSession != null

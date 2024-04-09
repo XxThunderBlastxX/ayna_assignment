@@ -1,14 +1,14 @@
-import 'package:ayna_assignment/src/app/utils/colors.dart';
-import 'package:ayna_assignment/src/app/utils/random_avatar.dart';
-import 'package:ayna_assignment/src/feature/chat/presentation/screens/widget/chat_home_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../app/service/service_locator.dart';
 import '../../../../app/service/supabase_service.dart';
-import '../../../../app/service_locator/service_locator.dart';
 import '../../../../app/theme/theme.dart';
+import '../../../../app/utils/colors.dart';
+import '../../../../app/utils/random_avatar.dart';
 import '../bloc/chat/chat_bloc.dart';
+import 'widget/chat_home_appbar.dart';
 
 class ChatHomeScreen extends StatefulWidget {
   const ChatHomeScreen({super.key});
@@ -42,20 +42,23 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
       ],
       child: BlocConsumer<ChatBloc, ChatState>(
         listener: (context, state) {
-          if (state is ChatSessionList && state.chatSessionCreated) {
+          if (state is ChatSessionListState && state.chatSessionCreated) {
             _usernameController.clear();
             context.pop();
           }
         },
         builder: (context, state) {
-          if (state is ChatSessionList) {
+          if (state is ChatSessionListState) {
             return Scaffold(
               appBar: chatHomeAppBar(
                 usernameController: _usernameController,
                 context: context,
-                onLogout: () {
-                  sl<SupabaseService>().client.auth.signOut();
-                  context.pushReplacement("/login");
+                onLogout: () async {
+                  await sl<SupabaseService>()
+                      .client
+                      .auth
+                      .signOut()
+                      .then((_) => context.pushReplacement("/login"));
                 },
                 onNewChat: () => context.read<ChatBloc>().add(
                       ChatSessionCreateEvent(
@@ -76,7 +79,9 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
                             itemCount: state.chatSessionId.length,
                             itemBuilder: (context, i) => Padding(
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 12.0),
+                                vertical: 8.0,
+                                horizontal: 12.0,
+                              ),
                               child: ListTile(
                                 contentPadding: const EdgeInsets.all(8.0),
                                 tileColor: getRandomColor(),
@@ -104,7 +109,7 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
                                 leading: CircleAvatar(
                                   radius: 24,
                                   child: RandomAvatar.getRandomAvatar(
-                                      state.chatSessionId[i]),
+                                      state.chatSessionId[i].toString()),
                                 ),
                                 onTap: () => context.go(
                                     '/home/message/${state.chatSessionId[i]}'),

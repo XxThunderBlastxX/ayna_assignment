@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/common/widget/styled_form_field.dart';
+import '../../../../app/service/service_locator.dart';
 import '../../../../app/service/supabase_service.dart';
-import '../../../../app/service_locator/service_locator.dart';
 import '../../../../app/theme/theme.dart';
 import '../../data/repository/auth_repository.dart';
 import '../bloc/auth_bloc.dart';
@@ -75,6 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         label: 'Password',
                         icon: const Icon(Icons.lock),
                         controller: _passwordController,
+                        obscureText: true,
                       ),
                       28.verticalSpace,
                       (state is AuthLoading)
@@ -96,14 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
-                      28.verticalSpace,
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Forgot Password?',
-                          style: AppTheme.theme.textTheme.labelSmall,
-                        ),
-                      ),
+                      12.verticalSpace,
                       TextButton(
                         onPressed: () => context.push('/signup'),
                         child: Text(
