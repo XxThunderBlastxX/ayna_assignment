@@ -26,11 +26,6 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
   void initState() {
     _messageController = TextEditingController();
     _scrollController = ScrollController();
-    // _scrollController.animateTo(
-    //   _scrollController.position.maxScrollExtent + 300,
-    //   duration: const Duration(milliseconds: 300),
-    //   curve: Curves.easeOut,
-    // );
     super.initState();
   }
 

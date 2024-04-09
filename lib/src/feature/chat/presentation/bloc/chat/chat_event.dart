@@ -14,3 +14,14 @@ class ChatSessionCreateEvent extends ChatEvent {
   @override
   List<Object> get props => [sessionId];
 }
+
+class ChatSessionDeletedEvent extends ChatEvent {
+  final String sessionId;
+
+  const ChatSessionDeletedEvent({
+    required this.sessionId,
+  });
+
+  @override
+  List<Object> get props => [sessionId];
+}

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../theme/theme.dart';
 
-class StyledFormField extends StatelessWidget {
+class StyledField extends StatelessWidget {
   final String label;
   final Widget? icon;
   final TextEditingController? controller;
 
-  const StyledFormField({
+  const StyledField({
     super.key,
     required this.label,
     this.icon,
@@ -26,7 +26,7 @@ class StyledFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return TextField(
       controller: controller,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(12),

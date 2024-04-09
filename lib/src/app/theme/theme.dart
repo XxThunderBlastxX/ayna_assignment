@@ -19,40 +19,54 @@ class AppTheme {
       elevation: 0,
       centerTitle: true,
       toolbarHeight: 47.h,
-      titleTextStyle: GoogleFonts.notoSansAnatolianHieroglyphs(
+      titleTextStyle: GoogleFonts.roboto(
         fontSize: 18.sp,
         fontWeight: FontWeight.w800,
         color: Colors.black87,
       ),
     ),
-    fontFamily: GoogleFonts.notoSansAnatolianHieroglyphs().fontFamily,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(kPinkColor),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            side: const BorderSide(
+              color: Colors.black87,
+              width: 2,
+            ),
+          ),
+        ),
+      ),
+    ),
+    fontFamily: GoogleFonts.roboto().fontFamily,
     textTheme: TextTheme(
-      bodyLarge: GoogleFonts.notoSansAnatolianHieroglyphs(
+      bodyLarge: GoogleFonts.roboto(
         fontSize: 18.sp,
         fontWeight: FontWeight.w500,
         color: Colors.black87,
       ),
-      bodyMedium: GoogleFonts.notoSansAnatolianHieroglyphs(
+      bodyMedium: GoogleFonts.roboto(
         fontSize: 15.sp,
         fontWeight: FontWeight.w500,
         color: Colors.black87,
       ),
-      bodySmall: GoogleFonts.notoSansAnatolianHieroglyphs(
+      bodySmall: GoogleFonts.roboto(
         fontSize: 12.sp,
         fontWeight: FontWeight.w500,
         color: Colors.black87,
       ),
-      labelLarge: GoogleFonts.notoSansAnatolianHieroglyphs(
+      labelLarge: GoogleFonts.roboto(
         fontSize: 18.sp,
         fontWeight: FontWeight.w500,
         color: Colors.black87,
       ),
-      labelMedium: GoogleFonts.notoSansAnatolianHieroglyphs(
+      labelMedium: GoogleFonts.roboto(
         fontSize: 15.sp,
         fontWeight: FontWeight.w500,
         color: Colors.black87,
       ),
-      labelSmall: GoogleFonts.notoSansAnatolianHieroglyphs(
+      labelSmall: GoogleFonts.roboto(
         fontSize: 12.sp,
         fontWeight: FontWeight.w500,
         color: Colors.black87,

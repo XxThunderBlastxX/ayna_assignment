@@ -1,6 +1,8 @@
+import 'package:ayna_assignment/src/app/utils/colors.dart';
+import 'package:ayna_assignment/src/app/utils/random_avatar.dart';
+import 'package:ayna_assignment/src/feature/chat/presentation/screens/widget/chat_home_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/service/supabase_service.dart';
@@ -40,7 +42,7 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
       ],
       child: BlocConsumer<ChatBloc, ChatState>(
         listener: (context, state) {
-          if (state is ChatSessionList) {
+          if (state is ChatSessionList && state.chatSessionCreated) {
             _usernameController.clear();
             context.pop();
           }
@@ -48,68 +50,18 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
         builder: (context, state) {
           if (state is ChatSessionList) {
             return Scaffold(
-              appBar: AppBar(
-                actions: [
-                  ElevatedButton(
-                    onPressed: () => showDialog(
-                      context: context,
-                      builder: (_) => Dialog(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Text('New Chat'),
-                              TextField(
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter username',
-                                ),
-                                controller: _usernameController,
-                              ),
-                              12.verticalSpace,
-                              ElevatedButton(
-                                onPressed: () => context.read<ChatBloc>().add(
-                                      ChatSessionCreateEvent(
-                                        sessionId:
-                                            _usernameController.text.trim(),
-                                      ),
-                                    ),
-                                child: Text(
-                                  'Start Chat',
-                                  style: AppTheme.theme.textTheme.labelMedium,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+              appBar: chatHomeAppBar(
+                usernameController: _usernameController,
+                context: context,
+                onLogout: () {
+                  sl<SupabaseService>().client.auth.signOut();
+                  context.pushReplacement("/login");
+                },
+                onNewChat: () => context.read<ChatBloc>().add(
+                      ChatSessionCreateEvent(
+                        sessionId: _usernameController.text.trim(),
                       ),
                     ),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.all(12.0),
-                    ),
-                    child: Text(
-                      'New Chat',
-                      style: AppTheme.theme.textTheme.labelMedium,
-                    ),
-                  ),
-                  12.horizontalSpace,
-                  IconButton(
-                    icon: const Icon(Icons.logout),
-                    onPressed: () {
-                      sl<SupabaseService>().client.auth.signOut();
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/login',
-                        (route) => false,
-                      );
-                    },
-                  ),
-                ],
-                title: Padding(
-                  padding: const EdgeInsets.only(left: 18.0),
-                  child:
-                      Text('Chat', style: AppTheme.theme.textTheme.labelLarge),
-                ),
-                centerTitle: false,
               ),
               body: Column(
                 children: [
@@ -127,16 +79,32 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
                                   vertical: 8.0, horizontal: 12.0),
                               child: ListTile(
                                 contentPadding: const EdgeInsets.all(8.0),
+                                tileColor: getRandomColor(),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.r),
+                                  borderRadius: BorderRadius.circular(12),
+                                  side: const BorderSide(
+                                    color: Colors.black87,
+                                    width: 2,
+                                  ),
                                 ),
                                 title: Text(
                                   state.chatSessionId[i].toString(),
                                   style: AppTheme.theme.textTheme.labelLarge,
                                 ),
+                                trailing: ElevatedButton(
+                                  onPressed: () => context.read<ChatBloc>().add(
+                                        ChatSessionDeletedEvent(
+                                            sessionId: state.chatSessionId[i]),
+                                      ),
+                                  child: Text(
+                                    'Delete Chat',
+                                    style: AppTheme.theme.textTheme.labelMedium,
+                                  ),
+                                ),
                                 leading: CircleAvatar(
-                                  radius: 24.r,
-                                  // backgroundImage: const AssetImage('assets/images/user.png'),
+                                  radius: 24,
+                                  child: RandomAvatar.getRandomAvatar(
+                                      state.chatSessionId[i]),
                                 ),
                                 onTap: () => context.go(
                                     '/home/message/${state.chatSessionId[i]}'),

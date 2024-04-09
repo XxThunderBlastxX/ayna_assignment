@@ -20,13 +20,31 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         if (chatSessionList.isEmpty) {
           await cacheStringList('chatSessions', [event.sessionId]);
           chatSessionList.add(event.sessionId);
-          emit(ChatSessionList(chatSessionId: chatSessionList));
+          emit(ChatSessionList(
+            chatSessionId: chatSessionList,
+            chatSessionCreated: true,
+          ));
           return;
         }
 
         chatSessionList.add(event.sessionId);
         await cacheStringList('chatSessions', chatSessionList);
-        emit(ChatSessionList(chatSessionId: chatSessionList));
+        emit(ChatSessionList(
+          chatSessionId: chatSessionList,
+          chatSessionCreated: true,
+        ));
+      }
+    });
+
+    on<ChatSessionDeletedEvent>((event, emit) async {
+      if (state is ChatSessionList) {
+        final chatSessionList = getCachedStringList('chatSessions') ?? [];
+        chatSessionList.remove(event.sessionId);
+        await cacheStringList('chatSessions', chatSessionList);
+        emit(ChatSessionList(
+          chatSessionId: chatSessionList,
+          chatSessionDeleted: true,
+        ));
       }
     });
   }
